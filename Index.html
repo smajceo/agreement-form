@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Friendship & Achievement Agreement</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+  margin:0;
+  padding:20px;
+}
+.container{
+  max-width:900px;
+  margin:auto;
+  animation:fadeIn 1.2s ease;
+}
+h1,h2{
+  text-align:center;
+  color:#fff;
+}
+.date{
+  text-align:center;
+  color:#ddd;
+}
+.card{
+  background:#fff;
+  border-radius:16px;
+  padding:20px;
+  margin-top:25px;
+  box-shadow:0 10px 25px rgba(0,0,0,.25);
+  animation:slideUp .8s ease;
+}
+.card h3{color:#2c5364;}
+input,select,textarea{
+  width:100%;
+  padding:12px;
+  margin:8px 0;
+  border-radius:8px;
+  border:1px solid #ccc;
+}
+textarea{height:70px;}
+.avatar{
+  width:130px;
+  height:130px;
+  border-radius:50%;
+  object-fit:cover;
+  display:block;
+  margin:10px auto;
+  border:4px solid #2c5364;
+  animation:zoomIn 1s ease;
+}
+.signature{
+  width:100%;
+  height:160px;
+  border:2px dashed #2c5364;
+  border-radius:10px;
+  background:#f9f9f9;
+}
+button{
+  width:100%;
+  padding:18px;
+  margin-top:15px;
+  font-size:18px;
+  border:none;
+  border-radius:12px;
+  background:linear-gradient(135deg,#2c5364,#0f2027);
+  color:#fff;
+}
+.clearBtn{
+  background:#999;
+  margin-top:5px;
+}
+.declare{
+  font-weight:bold;
+  text-align:center;
+}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideUp{from{transform:translateY(40px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes zoomIn{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}
+</style>
+</head>
+
+<body>
+<div class="container" id="agreement">
+
+<h1>Friendship & Achievement Partnership Agreement</h1>
+<h2>اتفاقية شراكة الصداقة وتحقيق الأهداف</h2>
+<p class="date">Agreement Date: <span id="today"></span></p>
+
+<!-- Partner A -->
+<div class="card">
+<h3>Partner A</h3>
+<input type="file" id="imgA" accept="image/*">
+<img id="previewA" class="avatar">
+<input placeholder="Full Name (English)">
+<input placeholder="الاسم الكامل (عربي)">
+<label>Date of Birth</label>
+<input type="date">
+<input placeholder="Nationality">
+<select>
+<option value="">Gender</option>
+<option>Male</option>
+<option>Female</option>
+</select>
+<input placeholder="Role in Partnership">
+</div>
+
+<!-- Partner B -->
+<div class="card">
+<h3>Partner B</h3>
+<input type="file" id="imgB" accept="image/*">
+<img id="previewB" class="avatar">
+<input placeholder="Full Name (English)">
+<input placeholder="الاسم الكامل (عربي)">
+<label>Date of Birth</label>
+<input type="date">
+<input placeholder="Nationality">
+<select>
+<option value="">Gender</option>
+<option>Male</option>
+<option>Female</option>
+</select>
+<input placeholder="Role in Partnership">
+</div>
+
+<!-- Ethics -->
+<div class="card">
+<h3>Ethical Commitment</h3>
+<label><input type="checkbox"> No lying / لا كذب</label><br>
+<label><input type="checkbox"> No promise breaking / عدم نقض الوعود</label><br>
+<label><input type="checkbox"> Full honesty & justice</label><br>
+<label><input type="checkbox"> Mutual respect</label>
+</div>
+
+<!-- Goals -->
+<div class="card">
+<h3>Goals & Achievements</h3>
+<textarea placeholder="5-Month Learning Goal"></textarea>
+<textarea placeholder="2-Year Goal"></textarea>
+<textarea placeholder="3-Year Goal"></textarea>
+<textarea placeholder="5-Year Goal"></textarea>
+</div>
+
+<!-- Signatures -->
+<div class="card">
+<h3>Finger Signatures</h3>
+
+<p>Partner A Signature</p>
+<canvas id="signA" class="signature"></canvas>
+<button class="clearBtn" onclick="clearCanvas('signA')">Clear</button>
+
+<p>Partner B Signature</p>
+<canvas id="signB" class="signature"></canvas>
+<button class="clearBtn" onclick="clearCanvas('signB')">Clear</button>
+</div>
+
+<div class="card declare">
+We declare this agreement with honesty and responsibility.<br>
+نقر بهذه الاتفاقية بالصدق والمسؤولية
+</div>
+
+</div>
+
+<button onclick="downloadPDF()">Download Agreement as PDF</button>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+
+<script>
+// date
+document.getElementById("today").innerText =
+  new Date().toLocaleDateString();
+
+// image preview
+function preview(idInput,idImg){
+  const i=document.getElementById(idInput);
+  const img=document.getElementById(idImg);
+  i.onchange=()=>{if(i.files[0])img.src=URL.createObjectURL(i.files[0]);};
+}
+preview("imgA","previewA");
+preview("imgB","previewB");
+
+// signature
+function setup(id){
+  const c=document.getElementById(id),x=c.getContext("2d");
+  c.width=c.offsetWidth; c.height=c.offsetHeight;
+  let d=false;
+  const pos=e=>{
+    const r=c.getBoundingClientRect();
+    const t=e.touches?e.touches[0]:e;
+    return{x:t.clientX-r.left,y:t.clientY-r.top};
+  };
+  c.onmousedown=c.ontouchstart=e=>{d=true;const p=pos(e);x.beginPath();x.moveTo(p.x,p.y);};
+  c.onmousemove=c.ontouchmove=e=>{if(!d)return;const p=pos(e);x.lineTo(p.x,p.y);x.lineWidth=2;x.lineCap="round";x.stroke();};
+  c.onmouseup=c.ontouchend=()=>{d=false;x.closePath();};
+}
+function clearCanvas(id){
+  const c=document.getElementById(id);
+  c.getContext("2d").clearRect(0,0,c.width,c.height);
+}
+setup("signA");
+setup("signB");
+
+// pdf
+function downloadPDF(){
+  html2pdf().set({
+    margin:0.4,
+    filename:"Friendship_Achievement_Agreement.pdf",
+    image:{type:"jpeg",quality:0.98},
+    html2canvas:{scale:2},
+    jsPDF:{unit:"in",format:"a4",orientation:"portrait"}
+  }).from(document.getElementById("agreement")).save();
+}
+</script>
+</body>
+</html>
