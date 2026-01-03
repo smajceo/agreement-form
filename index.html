@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Friendship & Achievement Agreement</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+<div class="container" id="agreement">
+
+<h1>Friendship & Achievement Partnership Agreement</h1>
+<h2>اتفاقية شراكة الصداقة وتحقيق الأهداف</h2>
+<p class="date">Agreement Date: <span id="today"></span></p>
+
+<!-- Partner A -->
+<div class="card">
+<h3>Partner A</h3>
+<input type="file" id="imgA" accept="image/*">
+<img id="previewA" class="avatar">
+<input placeholder="Full Name (English)">
+<input placeholder="الاسم الكامل (عربي)">
+<label>Date of Birth</label>
+<input type="date">
+<input placeholder="Nationality">
+<select>
+<option value="">Gender</option>
+<option>Male</option>
+<option>Female</option>
+</select>
+<input placeholder="Role in Partnership">
+</div>
+
+<!-- Partner B -->
+<div class="card">
+<h3>Partner B</h3>
+<input type="file" id="imgB" accept="image/*">
+<img id="previewB" class="avatar">
+<input placeholder="Full Name (English)">
+<input placeholder="الاسم الكامل (عربي)">
+<label>Date of Birth</label>
+<input type="date">
+<input placeholder="Nationality">
+<select>
+<option value="">Gender</option>
+<option>Male</option>
+<option>Female</option>
+</select>
+<input placeholder="Role in Partnership">
+</div>
+
+<!-- Ethics -->
+<div class="card">
+<h3>Ethical Commitment</h3>
+<label><input type="checkbox"> No lying / لا كذب</label><br>
+<label><input type="checkbox"> No promise breaking / عدم نقض الوعود</label><br>
+<label><input type="checkbox"> Full honesty & justice</label><br>
+<label><input type="checkbox"> Mutual respect</label>
+</div>
+
+<!-- Goals -->
+<div class="card">
+<h3>Goals & Achievements</h3>
+<textarea placeholder="5-Month Learning Goal"></textarea>
+<textarea placeholder="2-Year Goal"></textarea>
+<textarea placeholder="3-Year Goal"></textarea>
+<textarea placeholder="5-Year Goal"></textarea>
+</div>
+
+<!-- Signatures -->
+<div class="card">
+<h3>Finger Signatures</h3>
+
+<p>Partner A Signature</p>
+<canvas id="signA" class="signature"></canvas>
+<button class="clearBtn" onclick="clearCanvas('signA')">Clear</button>
+
+<p>Partner B Signature</p>
+<canvas id="signB" class="signature"></canvas>
+<button class="clearBtn" onclick="clearCanvas('signB')">Clear</button>
+</div>
+
+<div class="card declare">
+We declare this agreement with honesty and responsibility.<br>
+نقر بهذه الاتفاقية بالصدق والمسؤولية
+</div>
+
+</div>
+
+<button onclick="downloadPDF()">Download Agreement as PDF</button>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
